@@ -1,3 +1,7 @@
+//This was for creating a reuseable menu system for one of the GCGC game. We scrapped the idea but some of this was good.
+//Basically it creates panels that can be edited to add other panels and text boxes as well as buttons.
+
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
