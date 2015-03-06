@@ -1,3 +1,5 @@
+//Really simple AI that trverses sequential nodes to form a patrol.
+
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -10,6 +12,7 @@ namespace Spaces
 {
     class AI
     {
+        //List of all enemies
         public List<Enemy> allEnemy = new List<Enemy>();
         public Texture2D baseText;
 
@@ -22,7 +25,8 @@ namespace Spaces
         {
             baseText = content.Load<Texture2D>("player");
         }
-
+        
+        //Spawns all of the enemies passed into AI
         public void spawnEnemies(List<Vector2> eAmount)
         {
             foreach (Vector2 enemy in eAmount)
