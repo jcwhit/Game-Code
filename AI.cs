@@ -1,3 +1,4 @@
+//This is the wrong file its outdated.
 //Really simple AI that trverses sequential nodes to form a patrol.
 
 ﻿using System;
