@@ -1,3 +1,5 @@
+//This was the player class for a game that got scrapped but was a rougelike bullet hell game.
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,7 @@ namespace SpaceJam
         PlayerIndex player;
         Vector2 pos, vel;
         Texture2D  projText;
+        //Animations
         AnimatedTexture2D pText, cTxt, backDiagIdleTxt, backDiagRunTxt, backIdleTxt, backRunTxt, diagFrontIdleTxt, diagFrontRunTxt, frontRunTxt, idleFrontTxt, sideRunTxt, sideIdleTxt ;
         float rot, rf, rotT;
         GamePadState controller;
@@ -26,7 +29,8 @@ namespace SpaceJam
         SpriteEffects effect = SpriteEffects.None;
         SoundEffect sEffect;
         SoundEffectInstance soundEffectInstance;
-
+        
+        //Constructor intializes the player at the specified orgin. Was going to add an orgin animation but never got around to it
         public Player(PlayerIndex pNum, Vector2 startPos, float rotationFactor)
         {
             player = pNum;
@@ -49,13 +53,15 @@ namespace SpaceJam
         {
             return rotT;
         }
-
+        
+        //Contoller based movement
         public void movementController()
         {
 
             pos.Y -= GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y * 5;
             pos.X += GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X * 5;
-
+            
+            //Moves the player and updates the sprite for the animation
             if (GamePad.GetState(player).ThumbSticks.Left.Y < 0 || GamePad.GetState(player).ThumbSticks.Left.Y > 0 || GamePad.GetState(player).ThumbSticks.Left.X > 0 || GamePad.GetState(player).ThumbSticks.Left.X < 0)
             {
                 if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0)
@@ -63,6 +69,7 @@ namespace SpaceJam
                     cTxt = frontRunTxt;
                     effect = SpriteEffects.None;
                     rotT = (((float)Math.PI) / 2);
+                    //Dont remember adding sounds
                     if(soundLength > 0 )
                     {
                         soundEffectInstance.Play();
@@ -113,11 +120,14 @@ namespace SpaceJam
                 if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0 && GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0)
                 {
                     cTxt = backDiagRunTxt;
+                    //flips the character to face the other way
                     effect = SpriteEffects.FlipHorizontally;
                     rotT = (((float)Math.PI * 7) / 4);
                     sEffect.Play();
                 }
             }
+            
+            //If no inputs, this would run the idle animations
             else
             {
                 if (rotT == (((float)Math.PI) / 2))
@@ -163,7 +173,8 @@ namespace SpaceJam
                 //rot = 0;
             }
         }
-
+        
+        //Same as above except for keyboard controlls
         public void movementWASD()
         {
             KeyboardState kb = Keyboard.GetState();
@@ -207,7 +218,8 @@ namespace SpaceJam
             {
                 velocity.Normalize();
             }
-
+            
+            //This section is for diagonal movement animations and force
             if (kb.IsKeyDown(Keys.W) && kb.IsKeyDown(Keys.D))
             {
                 cTxt = backDiagRunTxt;
@@ -243,7 +255,8 @@ namespace SpaceJam
             pos.X += velocity.X * 5;
             pos.Y += velocity.Y * 5;   
         }
-
+        
+        //Held all the skills for the hero, never got to add more than a simple projectile
         public void skills()
         {
             KeyboardState kb = Keyboard.GetState();
@@ -287,7 +300,8 @@ namespace SpaceJam
                 p.Update();
             }
         }
-
+        
+        //Loads all the textures for the character and animations
         public void playerLoad(ContentManager content)
         {
             //Animations
@@ -307,7 +321,8 @@ namespace SpaceJam
             sEffect = content.Load<SoundEffect>("clap");
             projText = content.Load<Texture2D>("projectileTest");
         }
-
+        
+        //Standard draw function in XNA
         public void draw(SpriteBatch sB)
         {
             cTxt.draw(sB,pos,Color.White,rot, new Vector2(0,0),2,effect,0.5f);
